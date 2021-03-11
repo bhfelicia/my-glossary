@@ -2,8 +2,11 @@ const {
   syncAndSeed,
   Models: { Word, Category },
 } = require("./db");
+const router = require("./api");
 const express = require("express");
 const app = express();
+
+app.use("/api", require("./api"));
 
 const init = async () => {
   try {
