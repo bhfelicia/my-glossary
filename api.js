@@ -12,12 +12,12 @@ router.get("/categories", async (req, res, next) => {
   }
 });
 
-router.get("/words", async (req, res, next) => {
+router.get("/categories/:id", async (req, res, next) => {
   try {
-    const words = await Word.findAll({
-      include: Category,
+    const category = await Category.findByPk(req.params.id, {
+      include: { all: true },
     });
-    res.send(words);
+    res.send(category);
   } catch (error) {
     next(error);
   }
