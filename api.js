@@ -5,7 +5,9 @@ const {
 
 router.get("/categories", async (req, res, next) => {
   try {
-    const categories = await Category.findAll();
+    const categories = await Category.findAll({
+      include: { all: true },
+    });
     res.send(categories);
   } catch (error) {
     next(error);

@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { Component } from "react";
 import Navbar from "./Navbar";
+import Categories from "./Categories";
+import SingleCategory from "./SingleCategory";
 
 class App extends Component {
   constructor() {
@@ -10,21 +12,41 @@ class App extends Component {
       selectedCategory: {},
       categoryDetail: false,
     };
+    this.selectCategory = this.selectCategory.bind(this);
+    this.deselectCategory = this.deselectCategory.bind(this);
   }
-  async componentDidMount() {
-    const categories = (await axios.get("/api/categories")).data;
-    this.setState({ categories: categories });
-  }
-  render() {
-    const { categories } = this.state;
 
+  async componentDidMount() {
+    try {
+      const categories = (await axios.get("/api/categories")).data;
+      this.setState({ categories: categories });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  selectCategory(category) {
+    this.setState({
+      categoryDetail: !this.state.categoryDetail,
+      selectedCategory: category,
+    });
+  }
+  deselectCategory() {
+    this.setState({
+      categoryDetail: !this.state.categoryDetail,
+      selectedCategory: {},
+    });
+  }
+
+  render() {
+    const { categories, selectedCategory, categoryDetail } = this.state;
+    const { selectCategory, deselectCategory } = this;
     return (
       <div id="app">
-        <Navbar />
-        {categories.map(
-          (category) => `
-      ${category.title}
-      `
+        <Navbar deselectCategory={deselectCategory} />
+        {!categoryDetail ? (
+          <Categories categories={categories} selectCategory={selectCategory} />
+        ) : (
+          <SingleCategory selectedCategory={selectedCategory} />
         )}
       </div>
     );
