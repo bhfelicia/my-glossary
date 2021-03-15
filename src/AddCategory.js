@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { Component } from "react";
 
 class AddCategory extends Component {
@@ -14,17 +13,9 @@ class AddCategory extends Component {
       this.props.addCategory(this.state.input);
       this.setState({ input: "" });
     }
-    this.setState({ input: this.state.input });
   }
 
-  // async addCategory(title) {
-  //   const newCategory = await axios.post("/api/categories", {
-  //     title: title,
-  //   });
-  // }
-
   render() {
-    console.log(this.props);
     const { addCategory } = this.props;
     return (
       <div id="add-category">
