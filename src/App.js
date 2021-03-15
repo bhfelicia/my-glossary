@@ -14,6 +14,7 @@ class App extends Component {
     };
     this.selectCategory = this.selectCategory.bind(this);
     this.deselectCategory = this.deselectCategory.bind(this);
+    this.addCategory = this.addCategory.bind(this);
   }
 
   async componentDidMount() {
@@ -36,15 +37,26 @@ class App extends Component {
       selectedCategory: {},
     });
   }
-
+  async addCategory(title) {
+    const newCategory = await axios.post("/api/categories", {
+      title: title,
+    });
+    const { data } = await axios.get("/api/categories");
+    this.setState({ categories: data });
+  }
   render() {
     const { categories, selectedCategory, categoryDetail } = this.state;
-    const { selectCategory, deselectCategory } = this;
+    const { selectCategory, deselectCategory, addCategory } = this;
     return (
       <div id="app">
+        <h1>My Glossary</h1>
         <Navbar deselectCategory={deselectCategory} />
         {!categoryDetail ? (
-          <Categories categories={categories} selectCategory={selectCategory} />
+          <Categories
+            categories={categories}
+            selectCategory={selectCategory}
+            addCategory={addCategory}
+          />
         ) : (
           <SingleCategory selectedCategory={selectedCategory} />
         )}

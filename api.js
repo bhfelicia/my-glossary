@@ -13,16 +13,23 @@ router.get("/categories", async (req, res, next) => {
     next(error);
   }
 });
-
-router.get("/categories/:id", async (req, res, next) => {
+router.post("/categories", async (req, res, next) => {
   try {
-    const category = await Category.findByPk(req.params.id, {
-      include: { all: true },
-    });
-    res.send(category);
+    const newCategory = await Category.create(req.body);
+    res.redirect("/");
   } catch (error) {
     next(error);
   }
 });
+// router.get("/categories/:id", async (req, res, next) => {
+//   try {
+//     const category = await Category.findByPk(req.params.id, {
+//       include: { all: true },
+//     });
+//     res.send(category);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 module.exports = router;

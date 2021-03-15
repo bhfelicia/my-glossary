@@ -1,20 +1,32 @@
-import React from "react";
+import React, { Component } from "react";
+import axios from "axios";
+import AddCategory from "./AddCategory";
 
-const Categories = ({ categories, selectCategory }) => {
-  return (
-    <div id="categories">
-      {categories.map((category) => (
-        <div
-          className="category"
-          key={category.id}
-          onClick={() => {
-            selectCategory(category);
-          }}
-        >
-          <a>{category.title}</a>
-        </div>
-      ))}
-    </div>
-  );
-};
+class Categories extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { categories, selectCategory, addCategory } = this.props;
+
+    return (
+      <div id="categories">
+        <AddCategory addCategory={addCategory} />
+        {categories.map((category) => (
+          <div
+            className="category"
+            key={category.id}
+            onClick={() => {
+              selectCategory(category);
+            }}
+          >
+            <a>{category.title}</a>
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
+
 export default Categories;
