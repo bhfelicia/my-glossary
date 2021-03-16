@@ -15,12 +15,22 @@ class App extends Component {
     this.selectCategory = this.selectCategory.bind(this);
     this.deselectCategory = this.deselectCategory.bind(this);
     this.addCategory = this.addCategory.bind(this);
+    this.deleteCategory = this.deleteCategory.bind(this);
   }
 
   async componentDidMount() {
     try {
       const categories = (await axios.get("/api/categories")).data;
       this.setState({ categories: categories });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async deleteCategory(categoryId) {
+    try {
+      await axios.delete(`/api/categories/${categoryId}`);
+      const { data } = await axios.get("/api/categories");
+      this.setState({ categories: data });
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +56,12 @@ class App extends Component {
   }
   render() {
     const { categories, selectedCategory, categoryDetail } = this.state;
-    const { selectCategory, deselectCategory, addCategory } = this;
+    const {
+      selectCategory,
+      deselectCategory,
+      addCategory,
+      deleteCategory,
+    } = this;
     return (
       <div id="app">
         <h1>My Glossary</h1>
@@ -56,6 +71,7 @@ class App extends Component {
             categories={categories}
             selectCategory={selectCategory}
             addCategory={addCategory}
+            deleteCategory={deleteCategory}
           />
         ) : (
           <SingleCategory selectedCategory={selectedCategory} />

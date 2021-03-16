@@ -21,15 +21,15 @@ router.post("/categories", async (req, res, next) => {
     next(error);
   }
 });
-// router.get("/categories/:id", async (req, res, next) => {
-//   try {
-//     const category = await Category.findByPk(req.params.id, {
-//       include: { all: true },
-//     });
-//     res.send(category);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+
+router.delete("/categories/:id", async (req, res, next) => {
+  try {
+    const category = await Category.findByPk(req.params.id);
+    await category.destroy();
+    res.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

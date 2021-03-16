@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AddCategory from "./AddCategory";
+import axios from "axios";
 
 class Categories extends Component {
   constructor(props) {
@@ -7,20 +8,25 @@ class Categories extends Component {
   }
 
   render() {
-    const { categories, selectCategory, addCategory } = this.props;
-
+    const {
+      categories,
+      selectCategory,
+      addCategory,
+      deleteCategory,
+    } = this.props;
     return (
       <div id="categories">
         <AddCategory addCategory={addCategory} />
         {categories.map((category) => (
-          <div
-            className="category"
-            key={category.id}
-            onClick={() => {
-              selectCategory(category);
-            }}
-          >
-            <a>{category.title}</a>
+          <div className="category" key={category.id}>
+            <a
+              onClick={() => {
+                selectCategory(category);
+              }}
+            >
+              {category.title}
+            </a>
+            <button onClick={() => deleteCategory(category.id)}>x</button>
           </div>
         ))}
       </div>
